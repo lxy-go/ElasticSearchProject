@@ -1,0 +1,67 @@
+spring:
+  profiles:
+    active: dev
+  jpa:
+    show-sql: true
+    hibernate:
+        #只做验证，不做增删改的操作
+      ddl-auto: validate
+  #session会话存储类型
+  session:
+    store-type: hash_map
+  #thymeleaf
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  devtools:
+    restart:
+      exclude: templates/**,static/**
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+
+#关闭http基本验证
+security:
+  basic:
+    enabled: false
+server:
+  port: 9001
+
+#qiniuyun
+qiniu:
+  AccessKey: BziT7hX9KcVglKX3dGCFbovaU9p2F4pMWLHlQAsp
+  SecretKey: TTq0-4eezcI6dnaKZLmCemshzOJGHAtCxUw2bW0Q
+  Bucket: test-xunwu
+  cdn.prefix: p9h5uv2td.bkt.clouddn.com/
+
+---
+
+#JapConfig
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.179.131:3306/xunwu?useSSL=false
+    username: root
+    password: Welcome_1
+  #multipart Config
+  http:
+    multipart:
+      enabled: true
+      location: E:\ElasticSearchHouse\xunwu-project\tmp
+      file-size-threshold: 5MB
+      max-request-size: 20MB
+
+
+
+---
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
