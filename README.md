@@ -1,0 +1,2 @@
+# ElasticSearchProject
+这是一个SpringBoot开发的整合ElasticSearch的租房项目
