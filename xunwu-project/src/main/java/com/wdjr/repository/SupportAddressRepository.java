@@ -12,5 +12,9 @@ public interface SupportAddressRepository extends CrudRepository<SupportAddress,
 
     List<SupportAddress> findAllByLevel(String level);
 
+    SupportAddress findByEnNameAndLevel(String cityName,String level);
+
+    SupportAddress findByEnNameAndBelongTo(String cityEnName,String belongTo);
+
     List<SupportAddress> findAllByLevelAndBelongTo(String enName,String belongTo);
 }

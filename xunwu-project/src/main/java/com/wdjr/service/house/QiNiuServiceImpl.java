@@ -72,8 +72,7 @@ public class QiNiuServiceImpl implements IQiNiuService,InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         this.putPolicy = new StringMap();
-        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"width\":$(imageInfo.width),\"height\":${imageInfo.height}}" );
-
+        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"width\":$(imageInfo.width), \"height\":${imageInfo.height}}");
     }
     /**
      * 获取上传凭证

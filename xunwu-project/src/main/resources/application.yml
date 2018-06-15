@@ -8,7 +8,7 @@ spring:
       ddl-auto: validate
   #session会话存储类型
   session:
-    store-type: hash_map
+    store-type: redis
   #thymeleaf
   thymeleaf:
     cache: false
@@ -17,6 +17,7 @@ spring:
   devtools:
     restart:
       exclude: templates/**,static/**
+
 logging:
   level:
     org:
@@ -30,12 +31,14 @@ security:
 server:
   port: 9001
 
+
 #qiniuyun
 qiniu:
   AccessKey: BziT7hX9KcVglKX3dGCFbovaU9p2F4pMWLHlQAsp
   SecretKey: TTq0-4eezcI6dnaKZLmCemshzOJGHAtCxUw2bW0Q
   Bucket: test-xunwu
-  cdn.prefix: p9h5uv2td.bkt.clouddn.com/
+  cdn:
+    prefix: http://p9h5uv2td.bkt.clouddn.com/
 
 ---
 
@@ -44,7 +47,7 @@ spring:
   profiles: dev
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.179.131:3306/xunwu?useSSL=false
+    url: jdbc:mysql://192.168.179.131:3306/xunwu?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: Welcome_1
   #multipart Config
@@ -55,8 +58,35 @@ spring:
       file-size-threshold: 5MB
       max-request-size: 20MB
 
+  redis:
+    database: 0
+    host: 192.168.179.131
+    pool:
+      min-idle: 1
+    timeout: 3000
+    port: 6379
 
-
+---
+spring:
+  profiles: alibaba
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.90.102.14:3307/xunwu?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: Welcome_1
+  #multipart Config
+  http:
+    multipart:
+      enabled: true
+      location: /usr/local/myresource
+      file-size-threshold: 5MB
+      max-request-size: 20MB
+  redis:
+    database: 0
+    host: 47.90.102.14
+    pool:
+      min-idle: 1
+    timeout: 3000
 ---
 spring:
   profiles: test

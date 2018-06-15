@@ -6,6 +6,7 @@ import com.wdjr.dto.SupportAddressDTO;
 import com.wdjr.entity.Subway;
 import com.wdjr.entity.SupportAddress;
 import com.wdjr.service.ServiceMultiResult;
+import com.wdjr.service.ServiceResult;
 
 import java.util.List;
 import java.util.Map;
@@ -50,5 +51,25 @@ public interface IAddressService {
      * @return
      */
     List<SubwayStationDTO> findAllStationBySubway(Long subwayId);
+    /**
+     * 获取地铁线信息
+     * @param subwayId
+     * @return
+     */
+    ServiceResult<SubwayDTO> findSubway(Long subwayId);
+
+    /**
+     * 获取地铁站点信息
+     * @param stationId
+     * @return
+     */
+    ServiceResult<SubwayStationDTO> findSubwayStation(Long stationId);
+
+    /**
+     * 根据城市英文简写获取城市详细信息
+     * @param cityEnName
+     * @return
+     */
+    ServiceResult<SupportAddressDTO> findCity(String cityEnName);
 
 }

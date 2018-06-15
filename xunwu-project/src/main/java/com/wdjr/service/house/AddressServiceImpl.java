@@ -10,11 +10,13 @@ import com.wdjr.repository.SubwayRepository;
 import com.wdjr.repository.SubwayStationRepository;
 import com.wdjr.repository.SupportAddressRepository;
 import com.wdjr.service.ServiceMultiResult;
+import com.wdjr.service.ServiceResult;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +51,13 @@ public class AddressServiceImpl implements IAddressService {
 
     @Override
     public Map<SupportAddress.Level, SupportAddressDTO> findCityAndRegion(String cityEnName, String regionEnName) {
-        return null;
+        Map<SupportAddress.Level,SupportAddressDTO> result = new HashMap<>();
+
+        SupportAddress city = supportAddressRepository.findByEnNameAndLevel(cityEnName, SupportAddress.Level.CITY.getValue());
+        SupportAddress region = supportAddressRepository.findByEnNameAndBelongTo(regionEnName, city.getEnName());
+        result.put(SupportAddress.Level.CITY,modelMapper.map(city, SupportAddressDTO.class) );
+        result.put(SupportAddress.Level.REGION, modelMapper.map(region, SupportAddressDTO.class));
+        return result;
     }
 
     @Override
@@ -85,5 +93,45 @@ public class AddressServiceImpl implements IAddressService {
         }
         subwayStations.forEach(subwayStation -> result.add(modelMapper.map(subwayStation, SubwayStationDTO.class) ));
         return result;
+    }
+
+    @Override
+    public ServiceResult<SubwayDTO> findSubway(Long subwayId) {
+
+        if(subwayId == null){
+            return ServiceResult.notFound();
+        }
+
+        Subway subway = subwayRepository.findOne(subwayId);
+        if (subway==null){
+            return ServiceResult.notFound();
+        }
+        return ServiceResult.of(modelMapper.map(subway, SubwayDTO.class));
+
+    }
+
+    @Override
+    public ServiceResult<SubwayStationDTO> findSubwayStation(Long stationId) {
+        if(stationId == null){
+            return ServiceResult.notFound();
+        }
+
+        SubwayStation subwayStation = subwayStationRepository.findOne(stationId);
+
+        if (subwayStation==null){
+            return ServiceResult.notFound();
+        }
+        return ServiceResult.of(modelMapper.map(subwayStation, SubwayStationDTO.class));
+    }
+
+    @Override
+    public ServiceResult<SupportAddressDTO> findCity(String cityEnName) {
+        if (cityEnName == null){
+            return ServiceResult.notFound();
+        }
+        SupportAddress supportAddress = supportAddressRepository.findByEnNameAndLevel(cityEnName, SupportAddress.Level.CITY.getValue());
+        SupportAddressDTO addressDTO = modelMapper.map(supportAddress, SupportAddressDTO.class);
+        return ServiceResult.of(addressDTO);
+
     }
 }

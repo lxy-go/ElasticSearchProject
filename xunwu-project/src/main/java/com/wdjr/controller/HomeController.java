@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping(value = {"/","/index"})
     public String index(Model model){
         System.out.println("***************");
         model.addAttribute("name","你好");

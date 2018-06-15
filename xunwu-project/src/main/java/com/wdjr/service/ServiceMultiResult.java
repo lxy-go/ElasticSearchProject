@@ -8,19 +8,19 @@ import java.util.List;
  */
 
 public class ServiceMultiResult<T> {
-    private Integer total;
+    private long total;
     private List<T> result;
 
-    public ServiceMultiResult(Integer total, List<T> result) {
+    public ServiceMultiResult(long total, List<T> result) {
         this.total = total;
         this.result = result;
     }
 
-    public Integer getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
